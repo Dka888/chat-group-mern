@@ -110,7 +110,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
             setMessages(response)
         };
         loadingData();
-    }, []);
+    }, [messages]);
 
     useEffect(() => {
         const loadingData = async () => {

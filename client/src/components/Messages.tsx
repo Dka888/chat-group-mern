@@ -5,7 +5,7 @@ import { Registration } from "./Registration";
 import { SendingText } from "./SendingText";
 
 export const Messages = () => {
-    const { currentChannel, messages, users, modalLogin, modalRegister, modalChannel, tempMessage, loggedUser } = useChatContext();
+    const { currentChannel, messages, users, modalLogin, modalRegister, modalChannel} = useChatContext();
 
     function getUserById (id: string) {
       return users.find(user => user._id === id) ?? null;
@@ -25,28 +25,20 @@ export const Messages = () => {
                 </h1>
             </header>
             
-            <ul className='m-12 relative'>
+            <ul className='m-12 relative h-2/3 overflow-y-hidden '>
                 {modalLogin && <Authorization />}
                 {modalRegister && <Registration />}
                 {modalChannel && <AddChannel />}
+               
                 {messagesWithUsers.map(message => 
-                    <li key={message._id} className="flex gap-5 m-1.5">
-                    <div className="w-12 h-12 border rounded">
+                    <li key={message._id} className={`flex gap-5 m-1.5 my-3 -translate-y-${messagesWithUsers.length}`}>
+                    <div className="w-12 h-12 border rounded mr-5">
                         <img src={message.userId?.avatar} alt={message.userId?.lastName}/></div>
                     <div>
                         <p className=""><span className="mr-9">{message.userId?.firstName} {message.userId?.lastName}</span>{message.created}</p>
                         <p>{message.content}</p> 
                     </div>
                 </li>)}
-                {tempMessage && <li
-                    className="flex gap-5 m-1.5">
-                    <div className="w-12 h-12 border rounded">
-                        <img src={loggedUser?.avatar} alt={loggedUser?.lastName} /></div>
-                    <div>
-                        <p className=""><span className="mr-9">{loggedUser?.firstName} {loggedUser?.lastName}</span>{tempMessage.created}</p>
-                        <p>{tempMessage.content}</p>
-                    </div>
-                </li>}
             </ul>
             <SendingText />
         </div>

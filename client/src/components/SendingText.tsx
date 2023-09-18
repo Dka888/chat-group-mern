@@ -4,7 +4,7 @@ import { createMessage } from "../api/api";
 
 export const SendingText = () => {
     const [message, setMessage] = useState('');
-    const {loggedUser, currentChannel, setTempMessage} = useChatContext();
+    const { loggedUser, currentChannel } = useChatContext();
 
     const handleSubmitMessage = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -14,19 +14,11 @@ export const SendingText = () => {
             userId: loggedUser._id, 
             channelId: currentChannel._id
         }
-           await createMessage(newMessage);
-           const date = new Date().getDate();
-           const tempMessage = {
-            ...newMessage,
-           _id: '',
-           created: String(date)
-          }
-
-           setTempMessage(tempMessage)
-           setMessage('')
+            await createMessage(newMessage);
         }
-        
+        setMessage('')
     }
+
     return (
         <div className="absolute bottom-20 md:bottom-10 w-3/4">
             <form 
