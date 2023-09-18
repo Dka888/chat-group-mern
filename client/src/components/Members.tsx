@@ -16,7 +16,7 @@ export const Members = () => {
             </div>
             <div className='md:my-9 mx-6 relative'>
                 <h3 className="font-semibold uppercase">{currentChannel?.title}</h3>
-                <p>{currentChannel?.description}</p>
+                <p className="font-sm">{currentChannel?.description}</p>
             </div>
             <h3 className="my-4 font-semibold uppercase mx-6">Members</h3>
             <div className='md:my-7 mx-auto text-center'>

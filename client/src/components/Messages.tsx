@@ -1,8 +1,10 @@
 import { useChatContext } from "../context/ChatContext";
+import { AddChannel } from "./AddChannel";
 import { Authorization } from "./Authozition";
+import { Registration } from "./Registration";
 
 export const Messages = () => {
-    const {currentChannel, messages, users} = useChatContext();
+    const {currentChannel, messages, users, modalLogin, modalRegister, modalChannel} = useChatContext();
 
     function getUserById (id: string) {
       return users.find(user => user._id === id) ?? null;
@@ -22,7 +24,9 @@ export const Messages = () => {
             </header>
             
             <ul className='m-12 relative'>
-                <Authorization />
+                {modalLogin && <Authorization />}
+                {modalRegister && <Registration />}
+                {modalChannel && <AddChannel />}
                 {messagesWithUsers.map(message => 
                 <li key={message._id} className="flex gap-5">
                     <div className="w-12 h-12 border rounded">

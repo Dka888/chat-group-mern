@@ -1,7 +1,7 @@
 import { useChatContext } from "../context/ChatContext"
 
 export const Profile = () => {
-    const { loggedUser, handleModalProfile } = useChatContext();
+    const { loggedUser, handleModalProfile, handleModalLogin } = useChatContext();
 
     if (loggedUser) {
         const { avatar, firstName, lastName } = loggedUser;
@@ -22,7 +22,7 @@ export const Profile = () => {
     return (
         <div className='w-full h-14 py-2 my-auto text-center border border-black bg-black absolute bottom-0'>
             <button
-                onClick={handleModalProfile}
+                onClick={handleModalLogin}
             >
                 Profile
             </button>

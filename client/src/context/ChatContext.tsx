@@ -15,6 +15,12 @@ interface ChatContextInterface {
     loggedUser: User | null,
     modalProfile: boolean,
     handleModalProfile: () => void,
+    handleModalLogin: () => void,
+    handleModalRegister: () => void,
+    modalLogin: boolean,
+    modalRegister: boolean,
+    handleModalChannel: () => void,
+    modalChannel:boolean,
 }
 
 export const ChatContext = createContext<ChatContextInterface>({
@@ -28,6 +34,12 @@ export const ChatContext = createContext<ChatContextInterface>({
     loggedUser: null,
     modalProfile: false,
     handleModalProfile: () => {},
+    handleModalLogin: () => { },
+    handleModalRegister: () => {},
+    modalLogin: false,
+    modalRegister: false,
+    handleModalChannel: () => {},
+    modalChannel: false,
 });
 
 export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
@@ -38,11 +50,46 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     const [channels, setChannels] = useState<Channel[]>([]);
     const [loggedUser, setLoggedUser] = useState(null);
     const [modalProfile, setModalProfile] = useState(false);
+    const [modalLogin, setModalLogin] = useState(false);
+    const [modalRegister, setModalRegister] = useState(false);
+    const [modalChannel, setModalChannel] = useState(false);
 
+    //Handle callback functions:
     const handleModalProfile = useCallback(() => {
+        if (!modalLogin && !modalRegister && !modalChannel) {
         setModalProfile(!modalProfile);
-    },[modalProfile]);
-    
+        }
+    }, [modalLogin, modalRegister, modalProfile, modalChannel]);
+
+    const handleChangeChannel = useCallback((channel: Channel) => {
+        if (!modalLogin && !modalRegister && !modalChannel) {
+            handleOnChannel();
+            setCurrentChannel(channel);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [channels, modalLogin, modalChannel])
+
+    const handleOnChannel = useCallback(() => {
+        if (!modalLogin && !modalRegister && !modalChannel) {
+            setOnChannel(!onChannel);
+        }
+    }, [modalLogin, modalRegister, onChannel, modalChannel]);
+
+    const handleModalLogin = useCallback(() => {
+        setModalLogin(!modalLogin);
+        setModalProfile(false);
+    }, [modalLogin]);
+
+    const handleModalChannel = useCallback(() => {
+        setModalChannel(!modalChannel)
+    }, [modalChannel])
+
+    const handleModalRegister = useCallback(() => {
+        setModalRegister(!modalRegister)
+        setModalProfile(false);
+    },[modalRegister]);
+
+    // useEffects part:   
     useEffect(() => {
         const loadingData = async () => {
             const data = await getChannels();
@@ -50,7 +97,6 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
         };
         loadingData();
     }, []);
-
 
     useEffect(() => {
         const loadingData = async () => {
@@ -69,19 +115,12 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     useEffect(() => {
-        const localStr = localStorage.getItem('User')
+        const localStr = localStorage.getItem('loggedInUser')
         const loggedInUser = localStr ? JSON.parse(localStr) : null;
         setLoggedUser(loggedInUser);
-    }, [loggedUser]);
+    }, []);
 
-    const handleChangeChannel = (channel: Channel) => {
-        handleOnChannel();
-        setCurrentChannel(channel);
-    }
 
-    const handleOnChannel = () => {
-        setOnChannel(!onChannel)
-    }
     return (
         <ChatContext.Provider value={{
             onChannel,
@@ -93,7 +132,13 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
             channels,
             loggedUser,
             modalProfile,
-            handleModalProfile
+            handleModalProfile,
+            handleModalLogin,
+            modalLogin,
+            handleModalRegister,
+            modalRegister,
+            handleModalChannel,
+            modalChannel
         }}>
             {children}
         </ChatContext.Provider>)

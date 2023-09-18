@@ -2,7 +2,7 @@ import { useChatContext } from "../context/ChatContext";
 import { Profile } from "./Profile";
 
 export const Channels = () => {
-    const { handleChangeChannel, channels } = useChatContext();
+    const { handleChangeChannel, channels, handleModalChannel } = useChatContext();
 
     return (
         <div className='hidden md:block md:col-start-1 md:col-end-3 bg-left text-white py-3 relative'>
@@ -12,7 +12,7 @@ export const Channels = () => {
                 </h2>
                 <div
                     className="bg-input mx-3 rounded p-0.5 cursor-pointer"
-                    onClick={() => { }}
+                    onClick={handleModalChannel}
                 >
                     <img src="/add.svg" alt="add" className="" />
                 </div>
@@ -34,9 +34,9 @@ export const Channels = () => {
                         const secondLetter = secondWord !== undefined ? secondWord[0] : '';
                         return (
 
-                            <li className="flex" key={channel._id} onClick={() => handleChangeChannel(channel)}>
-                                <div className="mx-6 w-10 h-10 bg-input rounded flex justify-center items-center">{firstLetter} {!!secondLetter && secondLetter}</div>
-                                <p className="text-center my-auto">{channel.title}</p>
+                            <li className="flex my-1.5" key={channel._id} onClick={() => handleChangeChannel(channel)}>
+                                <div className="mx-6 w-10 h-10 bg-input rounded flex justify-center items-center">{firstLetter}{!!secondLetter && secondLetter}</div>
+                                <p className="text-start my-auto">{channel.title}</p>
                             </li>
                         )
                     })}
