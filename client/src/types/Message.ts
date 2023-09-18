@@ -3,5 +3,5 @@ export interface Message {
     content: string,
     userId: string,
     created: string,
-    channelId: string | null
+    channelId: string,
 }

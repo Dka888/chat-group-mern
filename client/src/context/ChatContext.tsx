@@ -20,7 +20,9 @@ interface ChatContextInterface {
     modalLogin: boolean,
     modalRegister: boolean,
     handleModalChannel: () => void,
-    modalChannel:boolean,
+    modalChannel: boolean,
+    tempMessage: Message | null,
+    setTempMessage: (tempMessage: Message | null) => void,
 }
 
 export const ChatContext = createContext<ChatContextInterface>({
@@ -40,6 +42,8 @@ export const ChatContext = createContext<ChatContextInterface>({
     modalRegister: false,
     handleModalChannel: () => {},
     modalChannel: false,
+    tempMessage: null,
+    setTempMessage: () => {}
 });
 
 export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
@@ -53,6 +57,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     const [modalLogin, setModalLogin] = useState(false);
     const [modalRegister, setModalRegister] = useState(false);
     const [modalChannel, setModalChannel] = useState(false);
+    const [tempMessage, setTempMessage] = useState<Message | null>(null);
 
     //Handle callback functions:
     const handleModalProfile = useCallback(() => {
@@ -88,6 +93,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
         setModalRegister(!modalRegister)
         setModalProfile(false);
     },[modalRegister]);
+
 
     // useEffects part:   
     useEffect(() => {
@@ -138,7 +144,9 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
             handleModalRegister,
             modalRegister,
             handleModalChannel,
-            modalChannel
+            modalChannel,
+            tempMessage,
+            setTempMessage
         }}>
             {children}
         </ChatContext.Provider>)

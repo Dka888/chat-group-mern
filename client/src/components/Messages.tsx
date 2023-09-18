@@ -2,9 +2,10 @@ import { useChatContext } from "../context/ChatContext";
 import { AddChannel } from "./AddChannel";
 import { Authorization } from "./Authozition";
 import { Registration } from "./Registration";
+import { SendingText } from "./SendingText";
 
 export const Messages = () => {
-    const {currentChannel, messages, users, modalLogin, modalRegister, modalChannel} = useChatContext();
+    const { currentChannel, messages, users, modalLogin, modalRegister, modalChannel, tempMessage, loggedUser } = useChatContext();
 
     function getUserById (id: string) {
       return users.find(user => user._id === id) ?? null;
@@ -15,6 +16,7 @@ export const Messages = () => {
         ...message,
         userId: getUserById(message.userId),
       }));
+
     return (
         <div className='col-start-1 col-end-5 md:col-start-3 md:col-end-12 text-white py-2'>
             <header className='h-9 w-full relative z-1'>
@@ -28,7 +30,7 @@ export const Messages = () => {
                 {modalRegister && <Registration />}
                 {modalChannel && <AddChannel />}
                 {messagesWithUsers.map(message => 
-                <li key={message._id} className="flex gap-5">
+                    <li key={message._id} className="flex gap-5 m-1.5">
                     <div className="w-12 h-12 border rounded">
                         <img src={message.userId?.avatar} alt={message.userId?.lastName}/></div>
                     <div>
@@ -36,8 +38,17 @@ export const Messages = () => {
                         <p>{message.content}</p> 
                     </div>
                 </li>)}
+                {tempMessage && <li
+                    className="flex gap-5 m-1.5">
+                    <div className="w-12 h-12 border rounded">
+                        <img src={loggedUser?.avatar} alt={loggedUser?.lastName} /></div>
+                    <div>
+                        <p className=""><span className="mr-9">{loggedUser?.firstName} {loggedUser?.lastName}</span>{tempMessage.created}</p>
+                        <p>{tempMessage.content}</p>
+                    </div>
+                </li>}
             </ul>
-            <input className='m-12 md:mb-2 absolute bottom-20 md:bottom-10 w-3/4 rounded-lg bg-input h-12' type='text'></input>
+            <SendingText />
         </div>
     )
 }

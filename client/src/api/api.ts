@@ -1,4 +1,5 @@
 import { Channel } from "../types/Channel";
+import { Message } from "../types/Message";
 import { User } from "../types/User";
 
 export const url = 'http://localhost:3333/api';
@@ -72,5 +73,22 @@ export async function createChannel(channel: Omit<Channel,'_id'>) {
       body: JSON.stringify(channel),
    })
 
+   return response.json();
+}
+
+export async function createMessage(message: Omit<Message,'_id' | 'created'>) {
+   const response = await fetch(`${url}/messages`, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      headers: {
+         "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+   });
+   console.log(response.json())
    return response.json();
 }
