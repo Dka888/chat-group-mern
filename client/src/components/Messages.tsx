@@ -17,6 +17,13 @@ export const Messages = () => {
         userId: getUserById(message.userId),
       }));
 
+      const heighMess = 60;
+
+    const lengthOfMessages = channelMessages.length;
+    const overflow = lengthOfMessages > 7
+      ? lengthOfMessages * heighMess - (heighMess * 7)
+      : 0;
+
     return (
         <div className='col-start-1 col-end-5 md:col-start-3 md:col-end-12 text-white py-2'>
             <header className='h-9 w-full relative z-1'>
@@ -25,13 +32,16 @@ export const Messages = () => {
                 </h1>
             </header>
             
-            <ul className='m-12 relative h-2/3 overflow-y-hidden '>
+            <div className='m-12 relative h-2/3 overflow-hidden '>
                 {modalLogin && <Authorization />}
                 {modalRegister && <Registration />}
                 {modalChannel && <AddChannel />}
-               
-                {messagesWithUsers.map(message => 
-                    <li key={message._id} className={`flex gap-5 m-1.5 my-3 -translate-y-${messagesWithUsers.length}`}>
+                <ul
+                    className="absolute inset-x-0 top-0"
+                    style={{ transform: `translateY(-${overflow}px)`}}
+                >
+                    {messagesWithUsers.map(message => 
+                        <li key={message._id} className={`flex gap-5 m-1.5 my-3`} >
                     <div className="w-12 h-12 border rounded mr-5">
                         <img src={message.userId?.avatar} alt={message.userId?.lastName}/></div>
                     <div>
@@ -39,7 +49,9 @@ export const Messages = () => {
                         <p>{message.content}</p> 
                     </div>
                 </li>)}
-            </ul>
+                </ul>
+
+            </div>
             <SendingText />
         </div>
     )

@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState, useContext, useEffect, useCallback } from "react";
+import { ReactNode, createContext, useState, useContext, useEffect, useCallback, useMemo } from "react";
 import { Channel } from "../types/Channel";
 import { User } from "../types/User";
 import { getChannels, getMessages, getUsers } from "../api/api";
@@ -23,6 +23,9 @@ interface ChatContextInterface {
     modalChannel: boolean,
     tempMessage: Message | null,
     setTempMessage: (tempMessage: Message | null) => void,
+    searchingChannel: Channel[],
+    query: string,
+    setQuery: (query: string) => void,
 }
 
 export const ChatContext = createContext<ChatContextInterface>({
@@ -43,7 +46,10 @@ export const ChatContext = createContext<ChatContextInterface>({
     handleModalChannel: () => {},
     modalChannel: false,
     tempMessage: null,
-    setTempMessage: () => {}
+    setTempMessage: () => {},
+    searchingChannel: [],
+    query: '',
+    setQuery: () => {},
 });
 
 export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
@@ -58,6 +64,7 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
     const [modalRegister, setModalRegister] = useState(false);
     const [modalChannel, setModalChannel] = useState(false);
     const [tempMessage, setTempMessage] = useState<Message | null>(null);
+    const [query, setQuery] = useState('');
 
     //Handle callback functions:
     const handleModalProfile = useCallback(() => {
@@ -126,6 +133,15 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
         setLoggedUser(loggedInUser);
     }, []);
 
+// useMemo
+    const searchingChannel = useMemo(() => {
+        let newChannels = channels;
+        const trimmedQuery = query.trim().toUpperCase();
+        if(query) {
+            newChannels = newChannels.filter(channel => channel.title.toUpperCase().includes(trimmedQuery))
+        }
+        return newChannels
+    }, [channels, query]);
 
     return (
         <ChatContext.Provider value={{
@@ -146,7 +162,10 @@ export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
             handleModalChannel,
             modalChannel,
             tempMessage,
-            setTempMessage
+            setTempMessage,
+            searchingChannel,
+            query,
+            setQuery
         }}>
             {children}
         </ChatContext.Provider>)

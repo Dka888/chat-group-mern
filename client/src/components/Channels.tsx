@@ -2,7 +2,7 @@ import { useChatContext } from "../context/ChatContext";
 import { Profile } from "./Profile";
 
 export const Channels = () => {
-    const { handleChangeChannel, channels, handleModalChannel } = useChatContext();
+    const { handleChangeChannel, handleModalChannel, query, setQuery, searchingChannel} = useChatContext();
 
     return (
         <div className='hidden md:block md:col-start-1 md:col-end-3 bg-left text-white py-3 relative'>
@@ -22,13 +22,15 @@ export const Channels = () => {
                 <input
                     className="w-4/5 rounded h-8 bg-input mx-1 pl-10"
                     placeholder="Search"
+                    onChange={(e)=> setQuery(e.target.value)}
+                    value={query}
                 />
                 <img src="/search.svg" className="absolute top-1 left-8 " />
 
             </div>
             <div className='md:my-7 mx-auto text-center'>
                 <ul>
-                    {channels.map(channel => {
+                    {searchingChannel.map(channel => {
                         const firstLetter = channel.title[0];
                         const secondWord = channel.title.split(' ')[1];
                         const secondLetter = secondWord !== undefined ? secondWord[0] : '';
