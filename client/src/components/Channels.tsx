@@ -37,7 +37,7 @@ export const Channels = () => {
                         return (
 
                             <li className="flex my-1.5" key={channel._id} onClick={() => handleChangeChannel(channel)}>
-                                <div className="mx-6 w-10 h-10 bg-input rounded flex justify-center items-center">{firstLetter}{!!secondLetter && secondLetter}</div>
+                                <div className="mx-5 w-10 h-10 bg-input rounded flex justify-center items-center">{firstLetter}{!!secondLetter && secondLetter}</div>
                                 <p className="text-start my-auto">{channel.title}</p>
                             </li>
                         )

@@ -25,7 +25,7 @@ export const Messages = () => {
       : 0;
 
     return (
-        <div className='col-start-1 col-end-5 md:col-start-3 md:col-end-12 text-white py-2'>
+        <div className='col-start-1 col-end-5 md:col-start-3 md:col-end-12 text-white py-2 z-1'>
             <header className='h-9 w-full relative z-1'>
                 <h1 className="text-2xl font-bold m-auto text-center text-white uppercase">
                     {currentChannel?.title}
@@ -33,9 +33,7 @@ export const Messages = () => {
             </header>
             
             <div className='m-12 relative h-2/3 overflow-hidden '>
-                {modalLogin && <Authorization />}
-                {modalRegister && <Registration />}
-                {modalChannel && <AddChannel />}
+               
                 <ul
                     className="absolute inset-x-0 top-0"
                     style={{ transform: `translateY(-${overflow}px)`}}
@@ -50,7 +48,9 @@ export const Messages = () => {
                     </div>
                 </li>)}
                 </ul>
-
+                {modalLogin && <Authorization />}
+                {modalRegister && <Registration />}
+                {modalChannel && <AddChannel />}
             </div>
             <SendingText />
         </div>

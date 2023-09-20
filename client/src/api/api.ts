@@ -43,7 +43,7 @@ export async function loginUser(email: string, password: string) {
 }
 
 export async function registerUser(user: Omit<User, '_id'>) {
-   const response = await fetch(`${url}/users`, {
+   const response = await fetch(`${url}/users/register`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",

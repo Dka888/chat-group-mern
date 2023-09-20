@@ -25,8 +25,8 @@ export const Members = () => {
                         const firstLetter = user.firstName[0];
                         const secondLetter = user.lastName[0] ?? '';
                         return (
-                            <li className="flex" key={user._id}>
-                                <div className="mx-6 w-10 h-10 bg-input rounded flex justify-center items-center">
+                            <li className="flex my-1" key={user._id}>
+                                <div className="mx-5 w-10 h-10 bg-input rounded flex justify-center items-center">
                                     {firstLetter}{secondLetter}
                                 </div>
                                 <p className="text-center my-auto">

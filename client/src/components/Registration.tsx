@@ -15,8 +15,11 @@ export const Registration = () => {
         e.preventDefault();
         const user = {email, password, firstName, lastName, avatar}
        const data = await registerUser(user);
-       localStorage.setItem('loggedInUser', JSON.stringify(data));
-       handleModalRegister();
+        if (data) {
+           localStorage.setItem('loggedInUser', JSON.stringify(data));
+           handleModalRegister();
+        }
+
     }, [avatar, email, firstName, handleModalRegister, lastName, password]);
 
     return (
