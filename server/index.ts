@@ -1,16 +1,15 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import userRoutes from './app/routes/userRoutes';
-import channelRoutes from './app/routes/channelRoutes';
-import messageRoutes from './app/routes/messageRoutes';
+import userRoutes from './app/routes/userRoutes.js';
+import channelRoutes from './app/routes/channelRoutes.js';
+import messageRoutes from './app/routes/messageRoutes.js';
 import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3333;
-const db = process.env.URI_MONGODB || 'mongodb+srv://dmitrijkosow:mongoDB@cluster0.k7fce6l.mongodb.net/?retryWrites=true&w=majority'
+const db = process.env.URI_MONGODB ?? 'mongodb+srv://dmitrijkosow:mongoDB@cluster0.k7fce6l.mongodb.net/?retryWrites=true&w=majority'
 app.use(express.json());
 app.use(cors());
-
 app.use('/api/users', userRoutes);
 app.use('/api/channels', channelRoutes);
 app.use('/api/messages', messageRoutes);
@@ -22,6 +21,7 @@ mongoose.connect(db)
   .catch((err) => {
     console.error('Error connecting to MongoDB:', err);
   });
+  console.log(process.env.URI_MONGODB);
 
 const start = async() => {
   try {

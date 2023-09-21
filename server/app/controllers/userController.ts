@@ -1,16 +1,11 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import { validationResult } from "express-validator";
+
 
 class UserController {
   public async createUser(req: Request, res: Response): Promise<void> {
     const { firstName, lastName, email, avatar, password } = req.body;
     try {
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        res.status(409).json({ message: 'Wrong validation' })
-      }
       const existingUser = await User.findOne({ email });
       if (existingUser) {
         res.status(400).json({ message: 'User already exists' });
